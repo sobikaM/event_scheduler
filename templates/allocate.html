@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h2>Allocate a Resource</h2>
+        <p class="text-muted">Select an event and a single resource to allocate.</p>
+        <form method="POST" action="{{ url_for('allocate') }}">
+            {% if edit_alloc %}
+            <input type="hidden" name="allocation_id" value="{{ edit_alloc.allocation_id }}">
+            {% endif %}
+            <div class="mb-3">
+                <label class="form-label">Event</label>
+                <select class="form-control" name="event_id" required>
+                    <option value="">Choose event</option>
+                    {% for event in events %}
+                    <option value="{{ event.event_id }}" {% if edit_alloc and edit_alloc.event_id==event.event_id %}selected{% endif %}>{{ event.title }} — {{ format_time_with_ampm(event.start_time) }} to {{ format_time_with_ampm(event.end_time) }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Resource</label>
+                <select class="form-control" name="resource_id" required>
+                    <option value="">Choose resource</option>
+                    {% for resource in resources %}
+                    <option value="{{ resource.resource_id }}" {% if edit_alloc and edit_alloc.resource_id==resource.resource_id %}selected{% endif %}>{{ resource.resource_name }} ({{ resource.resource_type }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{ 'Update' if edit_alloc else 'Allocate' }}</button>
+            {% if edit_alloc %}
+            <a href="{{ url_for('allocate') }}" class="btn btn-secondary">Cancel</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <div class="col-md-6">
+        <h2>Current Allocations</h2>
+        {% if allocations %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Resource</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alloc in allocations %}
+                    <tr>
+                        <td>{{ alloc.event_title }}</td>
+                        <td>{{ alloc.resource_name }}</td>
+                        <td>{{ alloc.resource_type }}</td>
+                        <td>
+                            <a href="{{ url_for('allocate') }}?edit_id={{ alloc.allocation_id }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{{ url_for('deallocate_resource', allocation_id=alloc.allocation_id) }}" 
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Remove this allocation?')">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No resources allocated yet.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
