@@ -3,9 +3,9 @@ from mysql.connector import errorcode
 
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'dev',
-    'password': 'root',
-    'database': 'Event_Management'
+    'user': 'root',
+    'password': 'Sobika@52',
+    'database': 'event'
 }
 
 

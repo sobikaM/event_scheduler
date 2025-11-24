@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, flash
 from db_config import get_db
 from datetime import datetime, timedelta
-
+import os
 app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret')
 
 @app.route("/")
 def home():
