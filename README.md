@@ -184,4 +184,6 @@ if __name__ == '__main__':
 * Support for recurring events
 * Mobile app version
 
+## LinkedIN LINK : 
+https://www.linkedin.com/posts/sobika-m-36b536333_flask-python-webdevelopment-activity-7398611218497933312-4d07?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFPoCYMBEJnYBBgcw0644x_kiJMBwsKx_6M
 
